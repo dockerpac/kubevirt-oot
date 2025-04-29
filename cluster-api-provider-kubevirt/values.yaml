@@ -1,0 +1,6 @@
+images:
+  kubevirtManager:
+    name: capk-manager
+    repo: quay.io/capk
+    tag: v0.1.9
+
