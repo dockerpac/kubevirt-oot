@@ -1,0 +1,5 @@
+images:
+  kubevirtManager:
+    name: capk-manager
+    repo: registry.k8s.pac.dockerps.io/oot
+    tag: v0.1.9
