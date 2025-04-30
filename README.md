@@ -174,3 +174,53 @@ spec:
         - echo "root:root" | chpasswd
 EOF
 ```
+
+## Install ClusterTemplate (NEW)
+
+```sh
+kubectl apply -f - <<EOF
+apiVersion: k0rdent.mirantis.com/v1alpha1
+kind: ClusterTemplate
+metadata:
+  name: kubevirt-standalone-cp-0-2-1
+  namespace: kcm-system
+  annotations:
+    helm.sh/resource-policy: keep
+spec:
+  helm:
+    chartSpec:
+      chart: kubevirt-standalone-cp
+      version: 0.2.1
+      interval: 10m0s
+      sourceRef:
+        kind: HelmRepository
+        name: oot-repo-pac
+EOF
+```
+
+```sh
+kubectl apply -f - <<EOF
+---
+apiVersion: k0rdent.mirantis.com/v1alpha1
+kind: ClusterDeployment
+metadata:
+  name: kubevirt-demo
+  namespace: kcm-system
+spec:
+  template: kubevirt-standalone-cp-0-2-1
+  credential: kubevirt-cluster-identity-cred
+  config:
+    controlPlaneNumber: 1
+    workersNumber: 1
+    controlPlane:
+      image: ghcr.io/k0rdent-oot/kubevirt-container-disk:debian-latest
+      preStartCommands:
+        - passwd -u root
+        - echo "root:root" | chpasswd
+    worker:
+      image: ghcr.io/k0rdent-oot/kubevirt-container-disk:debian-latest
+      preStartCommands:
+        - passwd -u root
+        - echo "root:root" | chpasswd
+EOF
+```
