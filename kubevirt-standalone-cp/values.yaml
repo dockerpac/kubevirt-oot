@@ -63,7 +63,15 @@ k0s: # @schema description: K0s parameters; type: object
   telemetry: # @schema description: Telemetry configuration; type: object
     enabled: false # @schema description: Whether to enable telemetry; type: boolean
 
+cloudControllerManager:
+  replicas: 1
+  repo: quay.io/kubevirt
+  name: kubevirt-cloud-controller-manager
+  tag: v0.5.1
+  topologySpreadConstraints: []
+
 singleArtifactSource:
-  enabled: true
+  enabled: false
   registry: registry.mirantis.com/k0rdent-enterprise
   k0sURL: https://get.mirantis.com/k0rdent-enterprise/v0.1.0
+

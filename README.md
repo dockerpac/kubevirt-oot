@@ -230,8 +230,24 @@ spec:
         extraArgs: {}
       network:
         vxlanPort: 6789
+    cloudControllerManager:
+      replicas: 1
+      #repo: registry.k8s.pac.dockerps.io/k0rdent-enterprise/kubevirt
+      repo: quay.io/kubevirt
+      name: kubevirt-cloud-controller-manager
+      tag: v0.5.1
+      topologySpreadConstraints:
+        - labelSelector:
+            matchLabels:
+              k8s-app: kubevirt-cloud-controller-manager-{{ .Release.Name }}
+          matchLabelKeys:
+          - pod-template-hash
+          topologyKey: topology.kubernetes.io/zone
+          maxSkew: 1
+          whenUnsatisfiable: DoNotSchedule
     singleArtifactSource:
       enabled: true
+      #registry: registry.k8s.pac.dockerps.io/k0rdent-enterprise
       registry: registry.mirantis.com/k0rdent-enterprise
       k0sURL: https://github.com/k0sproject/k0s/releases/download/v1.31.5+k0s.0
 EOF

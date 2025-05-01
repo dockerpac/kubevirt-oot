@@ -10,6 +10,9 @@ spec:
       downloadURL: "{{ .Values.singleArtifactSource.k0sURL }}/k0s-{{ .Values.k0s.version }}-amd64"
       {{- end }}
       version: {{ .Values.k0s.version }}
+      args:
+      - --enable-cloud-provider
+      - --kubelet-extra-args="--cloud-provider=external"
       files:
         - path: /home/{{ .Values.worker.ssh.user }}/.ssh/authorized_keys
           permissions: "0600"
