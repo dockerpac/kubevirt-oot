@@ -62,3 +62,8 @@ k0s: # @schema description: K0s parameters; type: object
     repository: "" # @schema description: Container image repository to use; type: string
   telemetry: # @schema description: Telemetry configuration; type: object
     enabled: false # @schema description: Whether to enable telemetry; type: boolean
+
+singleArtifactSource:
+  enabled: true
+  registry: registry.mirantis.com/k0rdent-enterprise
+  k0sURL: https://get.mirantis.com/k0rdent-enterprise/v0.1.0

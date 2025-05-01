@@ -210,6 +210,8 @@ spec:
   template: kubevirt-standalone-cp-0-2-1
   credential: kubevirt-cluster-identity-cred
   config:
+    cluster:
+      namespace: kcm-system
     controlPlaneNumber: 1
     workersNumber: 1
     controlPlane:
@@ -222,5 +224,15 @@ spec:
       preStartCommands:
         - passwd -u root
         - echo "root:root" | chpasswd
+    k0s:
+      version: v1.31.5+k0s.0
+      api:
+        extraArgs: {}
+      network:
+        vxlanPort: 6789
+    singleArtifactSource:
+      enabled: true
+      registry: registry.mirantis.com/k0rdent-enterprise
+      k0sURL: https://github.com/k0sproject/k0s/releases/download/v1.31.5+k0s.0
 EOF
 ```

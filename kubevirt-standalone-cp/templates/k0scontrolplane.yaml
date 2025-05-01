@@ -7,6 +7,9 @@ spec:
   replicas: {{ .Values.controlPlaneNumber }}
   version: {{ .Values.k0s.version }}
   k0sConfigSpec:
+    {{- if .Values.singleArtifactSource.enabled }}
+    downloadURL: "{{ .Values.singleArtifactSource.k0sURL }}/k0s-{{ .Values.k0s.version }}-amd64"
+    {{- end }}
     files:
       - path: /home/{{ .Values.controlPlane.ssh.user }}/.ssh/authorized_keys
         permissions: "0600"
@@ -35,6 +38,27 @@ spec:
             {{- with .Values.k0s.api.extraArgs }}
               {{- toYaml . | nindent 12 }}
             {{- end }}
+        {{- if .Values.singleArtifactSource.enabled }}
+        images:
+          metricsserver:
+            image: "{{ .Values.singleArtifactSource.registry}}/metrics-server"
+          kubeproxy:
+            image: "{{ .Values.singleArtifactSource.registry}}/kube-proxy"
+          coredns:
+            image: "{{ .Values.singleArtifactSource.registry}}/coredns"
+          pause:
+            image: "{{ .Values.singleArtifactSource.registry}}/pause"
+          calico:
+            cni:
+              image: "{{ .Values.singleArtifactSource.registry}}/calico-cni"
+            node:
+              image: "{{ .Values.singleArtifactSource.registry}}/calico-node"
+            kubecontrollers:
+              image: "{{ .Values.singleArtifactSource.registry}}/calico-kube-controllers"
+        {{- else }}
+        images:
+          repository: "{{ .Values.k0s.images.repository }}"
+        {{- end }}
         network:
           podCIDR: {{ index .Values.clusterNetwork.pods.cidrBlocks 0 }}
           serviceCIDR: {{ index .Values.clusterNetwork.services.cidrBlocks 0 }}
@@ -48,8 +72,6 @@ spec:
               CALICO_IPV4POOL_IPIP: "Never"
               CALICO_IPV4POOL_VXLAN: "Always"
               FELIX_VXLANPORT: "{{ .Values.k0s.network.vxlanPort }}"
-        images:
-          repository: "{{ .Values.k0s.images.repository }}"
   machineTemplate:
     infrastructureRef:
       apiVersion: infrastructure.cluster.x-k8s.io/v1alpha1
