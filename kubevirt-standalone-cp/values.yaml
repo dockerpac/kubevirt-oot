@@ -41,6 +41,23 @@ controlPlane: # @schema description: Control plane parameters; type: object
   #  - name: bridge-net
   #    multus:
   #      networkName: bridge-1560
+  dataVolumes: []
+  #  - name: root
+  #    accessModes: ReadWriteMany
+  #    storage: 50Gi
+  #    volumeMode: Block
+  #    storageClassName: block-pool
+  #    source:
+  #      snapshot:
+  #        namespace: kcm-system
+  #        name: goldenimage-ubuntu2204
+  #  - name: data
+  #    accessModes: ReadWriteMany
+  #    storage: 1Gi
+  #    volumeMode: Block
+  #    storageClassName: block-pool
+  #    source:
+  #      blank: {}
 
 worker: # @schema description: Worker parameters; type: object
   ssh: # @schema description: SSH access configuration for worker nodes; type: object
@@ -58,6 +75,24 @@ worker: # @schema description: Worker parameters; type: object
   #  - name: bridge-net
   #    multus:
   #      networkName: bridge-1560
+  dataVolumes: []
+  #  - name: root
+  #    accessModes: ReadWriteMany
+  #    storage: 50Gi
+  #    volumeMode: Block
+  #    storageClassName: block-pool
+  #    source:
+  #      snapshot:
+  #        namespace: kcm-system
+  #        name: goldenimage-ubuntu2204
+  #  - name: data
+  #    accessModes: ReadWriteMany
+  #    storage: 1Gi
+  #    volumeMode: Block
+  #    storageClassName: block-pool
+  #    source:
+  #      blank: {}
+  
 
 # K0s parameters
 k0s: # @schema description: K0s parameters; type: object
