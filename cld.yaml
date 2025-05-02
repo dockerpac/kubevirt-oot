@@ -61,6 +61,9 @@ spec:
     controlPlaneNumber: 1
     workersNumber: 1
     controlPlane:
+      ssh:
+        user: "ubuntu"
+        publicKey: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCmoZwP4JZl3wWK6XeFIa1VGxUPFNw533wsROGWSTEkzCQt5MYU5Hla+dzY3CtpYQTfZ+OSj8UBGI0II0ZzxH/VwP/78xdtSrhg/46fP12TRSlshWiduuJXfVgAJkwu9QD3QpOnKhDSlv6OTCSjdTdI1XHifrDMkUK39OVl0v8lKW2L8ZIAGwCLcn8W2tV23eVoyv2aO8PuC2h0YsfqSoXlntDFc6RyKpdixi9hXVevRUOuBqL/2jxQbaXceCeR38uY5kJickEg2I+GKOyeVqrKrd2Nkvy3ZsQ2hmvUQWyRVMub/ZlMYb5fRG0/Wvc8vOAPaXAvYtPqkJDcihoDRVz9 Generated-by-Nova"
       #image: ghcr.io/k0rdent-oot/kubevirt-container-disk:debian-latest
       dataVolumes:
         - name: root
@@ -72,15 +75,12 @@ spec:
             snapshot:
               namespace: kcm-system
               name: goldenimage-ubuntu2204
-        - name: data
-          accessModes: ReadWriteMany
-          storage: 1Gi
-          volumeMode: Block
-          storageClassName: block-pool
-          source:
-            blank: {}
       bootstrapCheckStrategy: none
+      runStrategy: Once
       preStartCommands:
+      #  - apt update
+      #  - env DEBIAN_FRONTEND=noninteractive apt -y install qemu-guest-agent
+      #  - systemctl enable --now qemu-guest-agent
         - passwd -u root
         - echo "root:root" | chpasswd
       additionalNetworkInterfaces:
@@ -88,6 +88,9 @@ spec:
           multus:
             networkName: bridge-1560
     worker:
+      ssh:
+        user: "ubuntu"
+        publicKey: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCmoZwP4JZl3wWK6XeFIa1VGxUPFNw533wsROGWSTEkzCQt5MYU5Hla+dzY3CtpYQTfZ+OSj8UBGI0II0ZzxH/VwP/78xdtSrhg/46fP12TRSlshWiduuJXfVgAJkwu9QD3QpOnKhDSlv6OTCSjdTdI1XHifrDMkUK39OVl0v8lKW2L8ZIAGwCLcn8W2tV23eVoyv2aO8PuC2h0YsfqSoXlntDFc6RyKpdixi9hXVevRUOuBqL/2jxQbaXceCeR38uY5kJickEg2I+GKOyeVqrKrd2Nkvy3ZsQ2hmvUQWyRVMub/ZlMYb5fRG0/Wvc8vOAPaXAvYtPqkJDcihoDRVz9 Generated-by-Nova"
       #image: ghcr.io/k0rdent-oot/kubevirt-container-disk:debian-latest
       dataVolumes:
         - name: root
@@ -107,7 +110,11 @@ spec:
           source:
             blank: {}
       bootstrapCheckStrategy: none
+      runStrategy: Once
       preStartCommands:
+      #  - apt update
+      #  - env DEBIAN_FRONTEND=noninteractive apt -y install qemu-guest-agent
+      #  - systemctl enable --now qemu-guest-agent
         - passwd -u root
         - echo "root:root" | chpasswd
       additionalNetworkInterfaces:

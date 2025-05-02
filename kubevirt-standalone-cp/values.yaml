@@ -32,6 +32,7 @@ controlPlane: # @schema description: Control plane parameters; type: object
   cpus: 2 # @schema description: Number of CPUs allocated to control plane nodes; type: integer; minimum: 1
   memory: "4Gi" # @schema description: Memory allocated to control plane nodes; type: string
   bootstrapCheckStrategy: none # @schema description: Strategy for bootstrap checks; type: string; enum: [none, ssh]
+  runStrategy: Always # @schema description: Run strategy for the control plane nodes; type: string; enum: [Always, Once]
   image: quay.io/containerdisks/debian:12 # @schema description: Container disk image for control plane nodes; type: string
   preStartCommands: # @schema description: Commands to run before starting K0s service; type: array; items: string
     - apt update
@@ -66,6 +67,7 @@ worker: # @schema description: Worker parameters; type: object
   cpus: 2 # @schema description: Number of CPUs allocated to worker nodes; type: integer; minimum: 1
   memory: "4Gi" # @schema description: Memory allocated to worker nodes; type: string
   bootstrapCheckStrategy: none # @schema description: Strategy for bootstrap checks; type: string; enum: [none, ssh]
+  runStrategy: Always # @schema description: Run strategy for the worker nodes; type: string; enum: [Always, Once]
   image: quay.io/containerdisks/debian:12 # @schema description: Container disk image for worker nodes; type: string
   preStartCommands: # @schema description: Commands to run before starting K0s service; type: array; items: string
     - apt update
