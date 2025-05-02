@@ -37,6 +37,10 @@ controlPlane: # @schema description: Control plane parameters; type: object
     - apt update
     - env DEBIAN_FRONTEND=noninteractive apt -y install qemu-guest-agent
     - systemctl enable --now qemu-guest-agent
+  additionalNetworkInterfaces: []
+  #  - name: bridge-net
+  #    multus:
+  #      networkName: bridge-1560
 
 worker: # @schema description: Worker parameters; type: object
   ssh: # @schema description: SSH access configuration for worker nodes; type: object
@@ -50,6 +54,10 @@ worker: # @schema description: Worker parameters; type: object
     - apt update
     - env DEBIAN_FRONTEND=noninteractive apt -y install qemu-guest-agent
     - systemctl enable --now qemu-guest-agent
+  additionalNetworkInterfaces: []
+  #  - name: bridge-net
+  #    multus:
+  #      networkName: bridge-1560
 
 # K0s parameters
 k0s: # @schema description: K0s parameters; type: object
