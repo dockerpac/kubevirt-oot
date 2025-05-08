@@ -78,7 +78,10 @@ kubectl patch release kcm-0-2-0-alpha4 --type=json -p='[{"op": "add", "path": "/
 ## Add kubevirt provider to Management
 
 ```sh
-# change <custom registry>/k0rdent-enterprise
+# to use standard image location
+kubectl patch management kcm --type=json -p='[{"op": "add", "path": "/spec/providers/-", "value": {"name": "cluster-api-provider-kubevirt", }}]'
+
+# to use custom registry - change <custom registry>/k0rdent-enterprise
 kubectl patch management kcm --type=json -p='[{"op": "add", "path": "/spec/providers/-", "value": {"name": "cluster-api-provider-kubevirt", "config": {"images": {"kubevirtManager": {"repo": "<custom registry>/k0rdent-enterprise"}}}}}]'
 ```
 
